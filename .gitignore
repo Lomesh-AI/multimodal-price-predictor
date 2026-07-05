@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+data/raw/*.csv
+data/processed/**
+data/embeddings/**
+checkpoints/**
+!**/.gitkeep
