@@ -1,0 +1,43 @@
+seed: 42
+
+data:
+  train_csv: data/raw/train.csv
+  test_csv: data/raw/test.csv
+  processed_dir: data/processed
+  embeddings_dir: data/embeddings
+  image_size: 384
+  image_download_workers: 16
+
+encoders:
+  text:
+    name: embeddinggemma
+    model_name: google/embeddinggemma-300m
+    output_dim: 768
+    mrl_truncate: null        # set to 512/256/128 to use MRL truncation
+    batch_size: 64
+  image:
+    name: siglip2-giant
+    model_name: google/siglip2-giant-opt-patch16-384
+    output_dim: 1792
+    batch_size: 32
+
+fusion:
+  type: cross_attention        # cross_attention | concat | gated
+  proj_dim: 512
+  heads: 8
+
+head:
+  hidden_dims: [512, 256, 128]
+  dropout: 0.1
+
+training:
+  loss: smape                  # smape | mse
+  lr: 1.0e-4
+  weight_decay: 0.01
+  eta_min: 1.0e-6
+  batch_size: 64
+  epochs: 25
+  early_stopping_patience: 4
+  val_split: 0.15
+
+checkpoint_dir: checkpoints/run_default
